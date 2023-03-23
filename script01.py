@@ -1,7 +1,7 @@
 # =================
 # package importing
 # =================
-import as tk
+import tkinter as tk
 import tkinter.ttk as ttk
 import openai
 
@@ -15,9 +15,9 @@ root = tk.Tk(screenName=None, baseName=None, className="Tk", useTk=True, sync=Fa
 root.title("CZ1993 ChatGPT")
 root.geometry("1280x720")
 
-# =========================
-widget style configurations
-# =========================
+# ===========================
+# widget style configurations
+# ===========================
 # style = ttk.Style()
 
 # style.theme_names()
@@ -44,21 +44,23 @@ label_chat_started = ttk.Label(root, text="Key Entered" + "\n" + "Chat Started")
 messages = []
 dialogue = ""
 
+
 def chat_started():
     # assign OpenAI API key
     openai.api_key = entry_key.get()
-    
+
     # pack chat started label
     label_chat_started.pack(pady=5)
-    
+
     while True:
-        inquiry = input()
+        inquiry = entry_inquiry.get()
         messages.append({"role": "user", "content": inquiry})
         completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
         response = completion.choices[0].message.content
         messages.append({"role": "assistant", "content": response})
-        dialogue = dialogue + "You: " + inquiry + "\n"
-        dialogue = dialogue + "ChatGPT: " + response + "\n"
+        dialogue += "You: " + inquiry + "\n"
+        dialogue += "ChatGPT: " + response + "\n"
+
 
 # OpenAI API key enter button
 button_key = ttk.Button(root, text="Enter Key", command=lambda: chat_started())
@@ -77,11 +79,18 @@ label_dialogue.pack(pady=5)
 entry_inquiry = ttk.Entry(root, width=60)
 entry_inquiry.pack(side=tk.BOTTOM, pady=5)
 
+
 # inquiry entered function
 def inquiry_entered():
     inquiry = entry_inquiry.get()
     label_dialogue.config(text=dialogue)
 
+
 # inquiry enter button
 button_inquiry = ttk.Button(root, text="Enter Inquiry", command=lambda: inquiry_entered())
 button_inquiry.pack(side=tk.BOTTOM, pady=5)
+
+# =====================
+# root loop circulation
+# =====================
+root.mainloop()
