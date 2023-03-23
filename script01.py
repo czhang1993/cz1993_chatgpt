@@ -44,7 +44,7 @@ label_chat_started = ttk.Label(root, text="Key Entered" + "\n" + "Chat Started")
 messages = []
 dialogue = ""
 
-def chat_started:
+def chat_started():
     # assign OpenAI API key
     openai.api_key = entry_key.get()
     
@@ -74,11 +74,12 @@ label_dialogue = ttk.Label(root, text=text_label_dialogue)
 label_dialogue.pack(pady=5)
 
 # inquiry entry
-entry_content = ttk.Entry(root, width=60)
+entry_inquiry = ttk.Entry(root, width=60)
 entry_inquiry.pack(side=tk.BOTTOM, pady=5)
 
 # inquiry entered function
 def inquiry_entered():
+    inquiry = entry_inquiry.get()
     label_dialogue.config(text=dialogue)
 
 # inquiry enter button
