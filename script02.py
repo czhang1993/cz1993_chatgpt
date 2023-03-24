@@ -53,7 +53,7 @@ button_key.pack(pady=5)
 # =================
 # dialogue printing
 # =================
-text_dialogue = tk.Text(root, width=800, height=600, wrap="WORD")
+text_dialogue = tk.Text(root, width=120, height=100, wrap="WORD")
 text_dialogue.pack(pady=5)
 
 # ===================
@@ -65,7 +65,7 @@ class chat:
         self.dialogue = dialogue
         self.messages = messages
     
-    def chat():
+    def get_response():
         inquiry = entry_inquiry.get()
         self.messages.append({"role": "user", "content": inquiry})
         completion = openai.ChatCompletion.create(model=self.model, messages=self.messages)
@@ -75,7 +75,35 @@ class chat:
     def print_dialogue():
         text_dialogue.insert("You: " + inquiry + "\n")
         text_dialogue.insert("ChatGPT: " + response + "\n")
+    
+    def chat():
+        self.get_response()
+        self.print_dialogue()
 
-# ======================
-# ChatGPT model creating
-# ======================
+# ====================
+# chat object creating
+# ====================
+# chat created function
+def chat_created():
+    global object_chat
+    object_chat = chat()
+
+# chat created button
+button_key = ttk.Button(root, text="Create Chat", command=lambda: chat_created())
+button_key.pack(pady=5)
+
+# ========
+# chatting
+# ========
+# inquiry entry
+entry_inquiry = ttk.Entry(root, width=100， height=20)
+entry_inquiry.pack(side=tk.BOTTOM, pady=5)
+
+# inquiry enter button
+button_inquiry = ttk.Button(root, text="Enter Inquiry", command=lambda: object_chat.chat())
+button_inquiry.pack(side=tk.BOTTOM, pady=5)
+
+# =====================
+# root loop circulation
+# =====================
+root.mainloop()
