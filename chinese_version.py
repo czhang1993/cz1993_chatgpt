@@ -43,9 +43,11 @@ label_key.pack(pady=(10, 5))
 entry_key = ttk.Entry(root, justify="center", width=60)
 entry_key.pack(pady=5)
 
+
 # OpenAI API key entered function
 def key_entered():
     openai.api_key = entry_key.get()
+
 
 # OpenAI API key enter button
 button_key = ttk.Button(root, text="输入私钥", command=lambda: key_entered())
@@ -58,10 +60,11 @@ text_dialogue = tk.Text(root, width=120, height=16, font=font_text, wrap="word")
 # text_dialogue.configure(font=font_text)
 text_dialogue.pack(pady=5)
 
+
 # ===================
 # chat class defining
 # ===================
-class chat:
+class Chat:
     def __init__(self, model="gpt-3.5-turbo", dialogue="", messages=[], inquiry=None, response=None):
         self.model = model
         self.dialogue = dialogue
@@ -84,15 +87,18 @@ class chat:
         self.get_response()
         self.print_dialogue()
 
+
 # ====================
 # chat object creating
 # ====================
 object_chat = None
 
+
 # chat created function
 def chat_created():
     global object_chat
-    object_chat = chat()
+    object_chat = Chat()
+
 
 # chat created button
 button_key = ttk.Button(root, text="创建聊天", command=lambda: chat_created())
