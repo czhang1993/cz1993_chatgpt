@@ -56,16 +56,25 @@ button_key.pack(pady=5)
 # =================
 # dialogue printing
 # =================
-text_dialogue = tk.Text(root, width=120, height=16, font=font_text, wrap="word")
-# text_dialogue.configure(font=font_text)
-text_dialogue.pack(pady=5)
+frame_dialogue = tk.Frame(root)
+frame_dialogue.configure(bg="#C4E1B2")
+frame_dialogue.pack()
+
+text_dialogue = tk.Text(frame_dialogue, width=120, height=16, font=font_text, wrap="word")
+text_dialogue.pack(side=tk.LEFT, pady=5)
+
+scrollbar_text_dialogue = ttk.Scrollbar(frame_dialogue, orient=tk.VERTICAL, command=text_dialogue.yview())
+text_dialogue.config(yscrollcommand=lambda f, l: scrollbar_text_dialogue.set(f, l))
+scrollbar_text_dialogue.pack(side=tk.RIGHT, fill=tk.Y)
 
 
 # ===================
 # chat class defining
 # ===================
 class Chat:
-    def __init__(self, model="gpt-3.5-turbo", dialogue="", messages=[], inquiry=None, response=None):
+    def __init__(self, model="gpt-3.5-turbo", dialogue="", messages=None, inquiry=None, response=None):
+        if messages is None:
+            messages = []
         self.model = model
         self.dialogue = dialogue
         self.messages = messages
@@ -101,15 +110,23 @@ def chat_created():
 
 
 # chat created button
-button_key = ttk.Button(root, text="创建聊天", command=lambda: chat_created())
-button_key.pack(before=text_dialogue, pady=5)
+button_chat_created = ttk.Button(root, text="创建聊天", command=lambda: chat_created())
+button_chat_created.pack(before=text_dialogue, pady=5)
 
 # ========
 # chatting
 # ========
 # inquiry entry
-text_inquiry = tk.Text(root, width=120, height=6, font=font_text, wrap="word")
-text_inquiry.pack(side=tk.BOTTOM, pady=(5, 10))
+frame_inquiry = tk.Frame(root)
+frame_inquiry.configure(bg="#C4E1B2")
+frame_inquiry.pack(side=tk.BOTTOM)
+
+text_inquiry = tk.Text(frame_inquiry, width=120, height=6, font=font_text, wrap="word")
+text_inquiry.pack(side=tk.LEFT, pady=(5, 10))
+
+scrollbar_text_inquiry = ttk.Scrollbar(frame_inquiry, orient=tk.VERTICAL, command=text_inquiry.yview())
+text_inquiry.config(yscrollcommand=lambda f, l: scrollbar_text_inquiry.set(f, l))
+scrollbar_text_inquiry.pack(side=tk.RIGHT, fill=tk.Y)
 
 # inquiry enter button
 button_inquiry = ttk.Button(root, text="输入询问", command=lambda: object_chat.chat())
